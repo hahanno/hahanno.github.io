@@ -1,0 +1,15 @@
+.item-container {
+    float: left;
+    width:25%;
+    padding-bottom: 25%;
+    background-color: aquamarine;
+    border: solid 1px #000;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width:720px) {
+    .item-container {
+        width:50%;
+        padding-bottom: 50%;
+    }
+}

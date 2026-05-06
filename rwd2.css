@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+}
+#desktop {
+    display: block;
+    width: 100%;
+    height: 1200px;
+    background-color: azure;
+}
+#tablet {
+    display: none;
+    width: 100%;
+    height: 1200px;
+    background-color:chartreuse;
+}
+#mobile {
+    display: none;
+    width: 100%;
+    height: 1200px;
+    background-color:brown;
+}
+@media screen and (max-width: 1024px) {
+    #desktop {
+        display: none;
+    }
+    #tablet {
+        display: block;
+    }
+}
+@media screen and (max-width: 640px) {
+    #tablet {
+        display: none;
+    }
+    #mobile {
+        display: block;
+    }
+}
