@@ -1,18 +1,127 @@
-<!DOCTYPE html>  <!-- HTML5 문서임을 알려줌 -->
-<html>
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-    <meta charset="utf-8">  <!-- 한글이 정상적으로 보이도록 설정 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">  <!-- 모바일에서 콘텐츠 크기 최적화 -->
-    <link rel="stylesheet" type="text/css" href="rwd1.css">
-    <title>미디어 쿼리(media query)를 활용한 반응형 웹 디자인</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스타듀밸리 스타일 낚시 게임</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<div class="item-container"></div>
-<div class="item-container"></div>
-<div class="item-container"></div>
-<div class="item-container"></div>
-<div class="item-container"></div>
-<div class="item-container"></div>
+
+    <!-- 게임 상단 스탯 바 -->
+    <header class="game-header">
+        <div class="info-box">
+            <span>💰 골드: <strong id="gold-display">0</strong> G</span>
+            <span>🎣 장비: <strong id="rod-display">대나무 낚싯대 (C등급)</strong></span>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <!-- 왼쪽 패널: 게임 화면 + 환경 선택 -->
+        <div class="left-panel">
+            <!-- 왼쪽: 바다 배경 및 낚시 미니게임 영역 -->
+            <section class="sea-section">
+            <div class="sea-background">
+                <video id="sea-video" class="sea-video" autoplay muted loop playsinline>
+                    <source src="img/ocean_bg_loop.mp4" type="video/mp4">
+                </video>
+                <!-- 환경 이미지 (강/민물 선택 시 표시) -->
+                <img id="sea-environment-image" class="sea-environment-image hidden" alt="환경" onerror="this.classList.add('hidden')">
+                <!-- 어부와 배 이미지 -->
+                <div class="boat-and-fisherman">
+                    <img class="boat-fisherman-img" src="img/fisherman_boat.png" alt="어부와 배">
+                </div>
+            </div>
+
+            <!-- 중앙 컨트롤 및 미니게임 컨테이너 -->
+            <div class="fishing-control-area">
+                <button id="fish-btn" class="btn-primary">🎣 낚시찌 던지기 / 당기기</button>
+                
+                <!-- 스타듀밸리형 미니게임 바 (기본 숨김) -->
+                <div id="minigame-container" class="minigame-container hidden">
+                    <!-- 수직 게이지 바 (초록바와 물고기가 노는 곳) -->
+                    <div class="fishing-tank" id="fishing-tank">
+                        <div id="green-bar" class="green-bar"></div>
+                        <div id="fish-icon" class="fish-icon">[🐟]</div>
+                    </div>
+                    <!-- 우측 포획 게이지 바 -->
+                    <div class="progress-container">
+                        <div id="catch-progress-bar" class="catch-progress-bar"></div>
+                    </div>
+                    <!-- 잡혔을 때 미리보기 이미지 (간단) -->
+                    <div id="catch-preview" class="catch-preview hidden">
+                        <img id="catch-preview-img" src="" alt="잡힌 물고기" onerror="this.parentElement.classList.add('hidden')">
+                    </div>
+
+                    <!-- 중앙 모달은 화면 중앙에 표시되도록 바깥에 배치됩니다 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 환경 선택 버튼 (강/민물/바다) -->
+        <div class="environment-buttons">
+            <button id="sea-btn" class="env-btn active" data-env="sea">🌊 바다</button>
+            <button id="river-btn" class="env-btn" data-env="river">🏞️ 강</button>
+            <button id="freshwater-btn" class="env-btn" data-env="freshwater">💧 민물</button>
+        </div>
+        </div>
+
+        <!-- 오른쪽: 데이터 관리 영역 (살림통 & 상점) -->
+        <section class="data-section">
+            <!-- 도감 / 컬렉션 -->
+            <div class="collection-box">
+                <h3>📚 도감 (Collection)</h3>
+                <div id="collection-container" class="collection-list">
+                    <p class="empty-msg">아직 잡은 물고기가 없습니다.</p>
+                </div>
+            </div>
+
+            <!-- 살림통 -->
+            <div class="inventory-box">
+                <h3>📦 내 살림통 (<span id="fish-count">0</span>/30)</h3>
+                <button id="sell-selected-btn" class="btn-danger">💰 선택 판매</button>
+                <button id="sell-all-btn" class="btn-danger" style="margin-left:8px;">💰 전체 판매</button>
+                <div id="keep-net" class="fish-grid">
+                    <p class="empty-msg">살림통이 비어있습니다.</p>
+                </div>
+
+                <!-- 현재 장착된 미끼 표시 -->
+                <h3 style="margin-top:10px;">⚙️ 장착된 미끼</h3>
+                <div id="equipped-bait-display" class="equipped-bait-display">
+                    <p class="empty-msg">장착된 미끼가 없습니다.</p>
+                </div>
+
+                <h3 style="margin-top:10px;">🪱 미끼 인벤토리</h3>
+                <div id="bait-inventory" class="bait-grid">
+                    <p class="empty-msg">미끼가 없습니다.</p>
+                </div>
+            </div>
+
+            <!-- 상점 -->
+            <div class="shop-box">
+                <h3>🏪 낚시 장비 상점</h3>
+                <div id="shop-container" class="shop-grid"></div>
+            </div>
+        </section>
+    </div>
+
+    <script src="game.js"></script>
 </body>
 </html>
+ 
+<!-- 중앙 모달: 낚시 성공 화면 (이미지 및 배경 수정 가능) -->
+<div id="catch-modal" class="catch-modal hidden">
+    <div id="catch-modal-overlay" class="catch-modal-overlay"></div>
+    <div class="catch-modal-content">
+        <button id="catch-modal-close" class="modal-close">✕</button>
+        <h3 id="catch-modal-title">잡혔습니다!</h3>
+        <img id="catch-modal-img" src="" alt="caught fish">
+        <div id="catch-modal-info" class="catch-modal-info"></div>
+
+        <div class="modal-actions">
+            <button id="modal-apply-btn" class="btn-primary">적용 (살림통에 저장)</button>
+            <button id="modal-close-btn" class="btn-secondary">닫기</button>
+        </div>
+    </div>
+</div>
